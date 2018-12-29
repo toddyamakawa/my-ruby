@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+$script = File.realpath($0)
+$script_dir = File.dirname($script)
+
+ENV['GEM_PATH'] = File.realpath("#{$script_dir}/../.gem")
+
+puts `gem install --install-dir #{ENV['GEM_PATH']} bunny --version ">= 2.6.4"`
+puts `gem list`
+

@@ -1,10 +1,21 @@
 #!/usr/bin/env ruby
 
+require 'fileutils'
+
 $script = File.realpath($0)
 $script_dir = File.dirname($script)
 
-ENV['GEM_PATH'] = File.realpath("#{$script_dir}/../.gem")
+gem_path = "#{$script_dir}/../.gem"
+FileUtils.mkdir_p(gem_path)
+ENV['GEM_PATH'] = File.realpath(gem_path)
 
-puts `gem install --install-dir #{ENV['GEM_PATH']} bunny --version ">= 2.6.4"`
+gems = ['nokogiri', 'httparty', 'pry']
+
+IO.popen("gem install --install-dir #{ENV['GEM_PATH']} #{gems.join(' ')}") do |io|
+	io.each do |line|
+		puts line
+	end
+end
+
 puts `gem list`
 
